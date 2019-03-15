@@ -13,5 +13,5 @@ public interface BetRepository extends CrudRepository<BetEntity, Long>{
 	public List<BetEntity> findByCustomerId(Integer customerId);
 	
 	// TODO Not sure what is date here.
-//	public List<BetEntity> findAllByDateTimeBetween(Date start, Date end);
+	public List<BetEntity> findAllByDateTimeBetween(Date start, Date end);
 }

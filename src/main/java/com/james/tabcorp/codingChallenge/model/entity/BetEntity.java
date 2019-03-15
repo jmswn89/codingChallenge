@@ -1,6 +1,6 @@
 package com.james.tabcorp.codingChallenge.model.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ public class BetEntity {
 	private Long betId;
 
 	@Column
-	private Date DateTime;
+	private Date dateTime;
 	
 	@Column
 	private String betType;
@@ -34,7 +34,7 @@ public class BetEntity {
 
 	public BetEntity(Date dateTime, String betType, Integer propNumber, Integer customerId,
 			Double investmentAmount) {
-		DateTime = dateTime;
+		this.dateTime = dateTime;
 		this.betType = betType;
 		this.propNumber = propNumber;
 		this.customerId = customerId;
@@ -50,11 +50,11 @@ public class BetEntity {
 	}
 
 	public Date getDateTime() {
-		return DateTime;
+		return dateTime;
 	}
 
 	public void setDateTime(Date dateTime) {
-		DateTime = dateTime;
+		this.dateTime = dateTime;
 	}
 
 	public String getBetType() {
