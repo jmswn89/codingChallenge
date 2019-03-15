@@ -1,7 +1,5 @@
 package com.james.tabcorp.codingChallenge.ui;
 
-import java.util.UUID;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -13,7 +11,7 @@ public class Bet {
 
 	@Id
 	@NotNull
-	private UUID betId;
+	private Long betId;
 	
 	@NotNull
 	@JsonFormat
@@ -32,10 +30,9 @@ public class Bet {
 	@NotNull
 	private Double investmentAmount;
 
-	public Bet(@NotNull String dateTime, @NotNull String betType, @NotNull Integer propNumber,
+	public Bet(@NotNull Long betId, @NotNull String dateTime, @NotNull String betType, @NotNull Integer propNumber,
 			@NotNull Integer customerId, @NotNull Double investmentAmount) {
-		super();
-		this.betId = UUID.randomUUID();
+		this.betId = betId;
 		this.dateTime = dateTime;
 		this.betType = betType;
 		this.propNumber = propNumber;
@@ -43,8 +40,12 @@ public class Bet {
 		this.investmentAmount = investmentAmount;
 	}
 
-	public UUID getBetId() {
+	public Long getBetId() {
 		return betId;
+	}
+
+	public void setBetId(Long betId) {
+		this.betId = betId;
 	}
 
 	public String getBetType() {

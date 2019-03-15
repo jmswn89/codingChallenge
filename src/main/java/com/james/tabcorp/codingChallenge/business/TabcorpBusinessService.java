@@ -7,22 +7,24 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.james.tabcorp.codingChallenge.model.entity.TabcorpEntity;
-import com.james.tabcorp.codingChallenge.model.repository.TabcorpEntityRepository;
+import com.james.tabcorp.codingChallenge.model.entity.BetEntity;
+import com.james.tabcorp.codingChallenge.model.repository.BetRepository;
 import com.james.tabcorp.codingChallenge.ui.Bet;
 
 @Service
 public class TabcorpBusinessService {
 
-	private TabcorpEntityRepository tabcorpRepository;
+	private BetRepository tabcorpRepository;
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public TabcorpBusinessService(TabcorpEntityRepository tabcorpRepository) {
+	public TabcorpBusinessService(BetRepository tabcorpRepository) {
 		this.tabcorpRepository = tabcorpRepository;
 	}
 	
 	public void createBet(Bet bet) throws IllegalArgumentException {
-		TabcorpEntity entity = new TabcorpEntity(null, null, null, null, null, null);
+		Date dateTime = createDateFromDateString(bet.getDateTime());
+		BetEntity entity = new BetEntity(new java.sql.Date(dateTime.getTime()), bet.getBetType(), bet.getPropNumber(), 
+				bet.getCustomerId(), bet.getInvestmentAmount());
 		this.tabcorpRepository.save(entity);
 	}
 
