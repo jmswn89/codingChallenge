@@ -23,7 +23,7 @@ public class TabcorpBusinessService {
 	
 	public void createBet(Bet bet) throws IllegalArgumentException {
 		Date dateTime = createDateFromDateString(bet.getDateTime());
-		BetEntity entity = new BetEntity(dateTime.getTime(), bet.getBetType(), bet.getPropNumber(), 
+		BetEntity entity = new BetEntity(dateTime, bet.getBetType(), bet.getPropNumber(), 
 				bet.getCustomerId(), bet.getInvestmentAmount());
 		this.tabcorpRepository.save(entity);
 	}
