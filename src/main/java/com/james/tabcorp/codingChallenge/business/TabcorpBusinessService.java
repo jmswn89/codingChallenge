@@ -23,16 +23,21 @@ public class TabcorpBusinessService {
 	
 	public void createBet(Bet bet) throws IllegalArgumentException {
 		Date dateTime = createDateFromDateString(bet.getDateTime());
-		BetEntity entity = new BetEntity(new java.sql.Date(dateTime.getTime()), bet.getBetType(), bet.getPropNumber(), 
+		BetEntity entity = new BetEntity(dateTime.getTime(), bet.getBetType(), bet.getPropNumber(), 
 				bet.getCustomerId(), bet.getInvestmentAmount());
 		this.tabcorpRepository.save(entity);
 	}
 
+	public String generateReport() {
+		// TODO: Retrieve all required values from repository and construct report from those values.
+	}
+	
 	private Date createDateFromDateString(String dateString){
         Date date = null;
         if (null != dateString) {
             try {
                 date = DATE_FORMAT.parse(dateString);
+		// TODO Add checking if the date is before the current date.
             }catch(ParseException pe){
                 date = new Date();
             }
