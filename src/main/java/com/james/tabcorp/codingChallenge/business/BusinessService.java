@@ -13,7 +13,7 @@ import com.james.tabcorp.codingChallenge.model.repository.BetRepository;
 import com.james.tabcorp.codingChallenge.ui.Bet;
 
 @Service
-public class TabcorpBusinessService {
+public class BusinessService {
 
 	private BetRepository repository;
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -23,7 +23,7 @@ public class TabcorpBusinessService {
 		WIN, PLACE, TRIFECTA, DOUBLE, QUADDIE
 	}
 	
-	public TabcorpBusinessService(BetRepository tabcorpRepository) {
+	public BusinessService(BetRepository tabcorpRepository) {
 		this.repository = tabcorpRepository;
 	}
 	
@@ -110,7 +110,15 @@ public class TabcorpBusinessService {
 	 * @return Enum of {@link BET_TYPE} if the bet type is valid.
 	 */
 	private BET_TYPE convertBetTypeToEnum(String betType) {
-		return BET_TYPE.valueOf(betType);
+		BET_TYPE bt;
+		try {
+			bt = BET_TYPE.valueOf(betType); 
+		}
+		catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException("Unknown bet type '" + betType + "'.");
+		}
+		
+		return bt;
 	}
 
 	private Date createDateFromDateString(String dateString){

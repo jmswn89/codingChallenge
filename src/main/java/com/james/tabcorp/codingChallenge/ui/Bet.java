@@ -29,6 +29,9 @@ public class Bet {
 	
 	@NotNull
 	private Double investmentAmount;
+	
+	public Bet() {
+	}
 
 	public Bet(@NotNull Long betId, @NotNull String dateTime, @NotNull String betType, @NotNull Integer propNumber,
 			@NotNull Integer customerId, @NotNull Double investmentAmount) {
