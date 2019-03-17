@@ -35,6 +35,10 @@ public class BetEntity {
 	@Column
 	private Double investmentAmount;
 
+	public BetEntity() {
+		
+	}
+
 	public BetEntity(Date dateTime, String betType, Integer propNumber, Integer customerId,
 			Double investmentAmount) {
 		this.dateTime = dateTime;

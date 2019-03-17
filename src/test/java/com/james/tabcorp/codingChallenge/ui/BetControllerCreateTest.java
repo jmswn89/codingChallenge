@@ -4,10 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -15,20 +14,24 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-public class BetControllerTest extends AbstractController {
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
+public class BetControllerCreateTest extends AbstractController {
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
+	}
+	
+	@Override
+	@After
+	public void tearDown()
+	{
+		super.tearDown();
 	}
 
 	@Test
 	public void createBet() throws Exception {
 		String uri = "/bet";
 		Bet bet = new Bet();
-		bet.setBetId(1L);
 		bet.setBetType("WIN");
 		bet.setCustomerId(1);
 		Date dateTime = new Date(System.currentTimeMillis());
@@ -37,8 +40,6 @@ public class BetControllerTest extends AbstractController {
 		bet.setPropNumber(10);
 
 		String inputJson = super.mapToJson(bet);
-		System.out.println(inputJson);
-
 		MvcResult  mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
 				.andReturn();;
@@ -51,7 +52,6 @@ public class BetControllerTest extends AbstractController {
 	public void createInvalidBetType() throws Exception {
 		String uri = "/bet";
 		Bet bet = new Bet();
-		bet.setBetId(1L);
 		bet.setBetType("WINNER");
 		bet.setCustomerId(1);
 		Date dateTime = new Date(System.currentTimeMillis());
@@ -60,8 +60,6 @@ public class BetControllerTest extends AbstractController {
 		bet.setPropNumber(10);
 
 		String inputJson = super.mapToJson(bet);
-		System.out.println(inputJson);
-
 		MvcResult  mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
 				.andReturn();
@@ -76,7 +74,6 @@ public class BetControllerTest extends AbstractController {
 	public void createInvalidInvestmentAmount() throws Exception {
 		String uri = "/bet";
 		Bet bet = new Bet();
-		bet.setBetId(1L);
 		bet.setBetType("DOUBLE");
 		bet.setCustomerId(1);
 		Date dateTime = new Date(System.currentTimeMillis());
@@ -85,8 +82,6 @@ public class BetControllerTest extends AbstractController {
 		bet.setPropNumber(10);
 
 		String inputJson = super.mapToJson(bet);
-		System.out.println(inputJson);
-
 		MvcResult  mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
 				.andReturn();
@@ -101,7 +96,6 @@ public class BetControllerTest extends AbstractController {
 	public void createInvalidDateTime() throws Exception {
 		String uri = "/bet";
 		Bet bet = new Bet();
-		bet.setBetId(1L);
 		bet.setBetType("WIN");
 		bet.setCustomerId(1);
 		// The date time is 2 hours before current time.
@@ -111,8 +105,6 @@ public class BetControllerTest extends AbstractController {
 		bet.setPropNumber(10);
 
 		String inputJson = super.mapToJson(bet);
-		System.out.println(inputJson);
-
 		MvcResult  mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
 				.andReturn();

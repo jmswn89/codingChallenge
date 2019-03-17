@@ -1,6 +1,8 @@
 package com.james.tabcorp.codingChallenge.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,9 +28,34 @@ public class BetController {
 
 	@RequestMapping(value = "/bet", method = RequestMethod.POST)
     public void createBet(@RequestBody Bet bet) {
-        System.out.println(bet.getBetType() + ", " + bet.getCustomerId() + ", " + bet.getDateTime());
         try {
         	this.businessService.createBet(bet);
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+    }
+	
+	@RequestMapping(value = "/bets", method = RequestMethod.GET)
+    public List<Bet> getAllBets() {
+		List<Bet> bets = new ArrayList<Bet>();
+        try {
+        	bets = this.businessService.findAllBets();
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+        return bets;
+    }
+	
+	@RequestMapping(value = "/cleanDatabase", method = RequestMethod.DELETE)
+    public void cleanDatabase() {
+        try {
+        	this.businessService.cleanDatabase();
         }
         catch (Exception ex) 
         {

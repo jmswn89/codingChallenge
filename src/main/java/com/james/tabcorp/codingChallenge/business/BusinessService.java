@@ -3,6 +3,7 @@ package com.james.tabcorp.codingChallenge.business;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class BusinessService {
 		BET_TYPE betType = convertBetTypeToEnum(bet.getBetType());
 
 		BetEntity entity = new BetEntity(dateTime, betType.toString(), bet.getPropNumber(), 
-				bet.getCustomerId(), bet.getInvestmentAmount());
+										 bet.getCustomerId(), bet.getInvestmentAmount());
 
 		this.repository.save(entity);
 	}
@@ -135,4 +136,19 @@ public class BusinessService {
 
         return date;
     }
+
+	public List<Bet> findAllBets() {
+		Iterable<BetEntity> iterable = this.repository.findAll();
+		List<Bet> bets = new ArrayList<Bet>();
+
+		iterable.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+											   e.getBetType(), e.getPropNumber(),
+											   e.getCustomerId(), e.getInvestmentAmount())));
+		
+		return bets;
+	}
+
+	public void cleanDatabase() {
+		this.repository.deleteAll();
+	}
 }
