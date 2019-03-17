@@ -3,6 +3,7 @@ package com.james.tabcorp.codingChallenge.model.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+//import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -47,11 +48,14 @@ public class BetRepositoryTest {
 		entityManager.persistAndFlush(be);
 		be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 1, 100.0);
 		entityManager.persistAndFlush(be);
+		be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 12, 100.0);
+		entityManager.persistAndFlush(be);
+		entityManager.flush();
 		
 		List<BetEntity> results =  repository.findByCustomerId(1);
 		assertEquals(results.size(), 2);
 		BetEntity result = results.get(0);
-		assertTrue(be.getCustomerId() == result.getCustomerId());
+		assertTrue(result.getCustomerId() == 1);
 		assertTrue(be.getInvestmentAmount() == 100.0);
 		
 		// Not found
@@ -62,20 +66,23 @@ public class BetRepositoryTest {
 	@Test
 	public void testFindByDateTime() {
 		Long currentTime = System.currentTimeMillis();
-		BetEntity be = new BetEntity(new Date(currentTime), "WIN", 123, 1, 10.0);
-		entityManager.persistAndFlush(be);
-		Long currentTime2 = currentTime + (1 * 3600);
-		be = new BetEntity(new Date(currentTime2), "WIN", 123, 1, 100.0);
-		entityManager.persistAndFlush(be);
+		Date dCurrTime = new Date(currentTime);
+		BetEntity be1 = new BetEntity(dCurrTime, "WIN", 123, 1, 10.0);
+		entityManager.persistAndFlush(be1);
 
-		Long currentTime3 = currentTime2 + 600;
-		be = new BetEntity(new Date(currentTime3), "WIN", 123, 1, 100.0);
-		entityManager.persistAndFlush(be);
+		Long currentTime2 = currentTime + (1 * 600);
+		Date dCurrTime2 = new Date(currentTime2);
+		BetEntity be2 = new BetEntity(dCurrTime2, "WIN", 123, 1, 200.0);
+		entityManager.persistAndFlush(be2);
+
+		Long currentTime3 = currentTime2 + 5600;
+		BetEntity be3 = new BetEntity(new Date(currentTime3), "WIN", 123, 1, 100.0);
+		entityManager.persistAndFlush(be3);
 		
-		List<BetEntity> results =  repository.findAllByDateTimeBetween(new Date(currentTime), new Date(currentTime2));
+		Long oneHourFromCurrentTime = currentTime + (1 * 3600);
+		List<BetEntity> results =  repository.findAllByDateTimeBetween(dCurrTime, new Date(oneHourFromCurrentTime));
 		assertEquals(results.size(), 2);
-		BetEntity result = results.get(0);
-		assertTrue(be.getCustomerId() == result.getCustomerId());
-		assertTrue(be.getInvestmentAmount() == 100.0);
+		assertTrue(results.get(0).getDateTime().equals(dCurrTime));
+		assertTrue(results.get(1).getDateTime().equals(dCurrTime2));
 	}
 }

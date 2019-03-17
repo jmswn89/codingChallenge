@@ -15,7 +15,7 @@ import com.james.tabcorp.codingChallenge.ui.Bet;
 public class TabcorpBusinessService {
 
 	private BetRepository tabcorpRepository;
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	public TabcorpBusinessService(BetRepository tabcorpRepository) {
 		this.tabcorpRepository = tabcorpRepository;
@@ -30,6 +30,7 @@ public class TabcorpBusinessService {
 
 	public String generateReport() {
 		// TODO: Retrieve all required values from repository and construct report from those values.
+		return "";
 	}
 	
 	private Date createDateFromDateString(String dateString){
@@ -37,7 +38,9 @@ public class TabcorpBusinessService {
         if (null != dateString) {
             try {
                 date = DATE_FORMAT.parse(dateString);
-		// TODO Add checking if the date is before the current date.
+                long currentTime = System.currentTimeMillis() - 3600; // Past means One hour before the current time.
+                if (date.before(new Date(currentTime)))
+                	throw new IllegalArgumentException("Current time should not in the past.");
             }catch(ParseException pe){
                 date = new Date();
             }
