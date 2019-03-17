@@ -3,7 +3,6 @@ package com.james.tabcorp.codingChallenge.model.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-//import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
