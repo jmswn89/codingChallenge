@@ -12,10 +12,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="tabcorp")
+@Table(name="bet")
 public class BetEntity {
 	@Id
-	@Column(name="id", updatable = false, nullable = false)
+	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long betId;
 
@@ -37,15 +37,6 @@ public class BetEntity {
 
 	public BetEntity() {
 		
-	}
-
-	public BetEntity(Date dateTime, String betType, Integer propNumber, Integer customerId,
-			Double investmentAmount) {
-		this.dateTime = dateTime;
-		this.betType = betType;
-		this.propNumber = propNumber;
-		this.customerId = customerId;
-		this.investmentAmount = investmentAmount;
 	}
 
 	public Long getBetId() {

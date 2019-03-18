@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Bet {
 
 	@Id
-	@NotNull
 	private Long betId;
 	
 	@NotNull
@@ -31,16 +30,6 @@ public class Bet {
 	private Double investmentAmount;
 	
 	public Bet() {
-	}
-
-	public Bet(@NotNull Long betId, @NotNull String dateTime, @NotNull String betType, @NotNull Integer propNumber,
-			@NotNull Integer customerId, @NotNull Double investmentAmount) {
-		this.betId = betId;
-		this.dateTime = dateTime;
-		this.betType = betType;
-		this.propNumber = propNumber;
-		this.customerId = customerId;
-		this.investmentAmount = investmentAmount;
 	}
 
 	public Long getBetId() {

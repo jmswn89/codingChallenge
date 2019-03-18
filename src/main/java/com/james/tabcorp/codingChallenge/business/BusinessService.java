@@ -32,7 +32,9 @@ public class BusinessService {
 	public void createBet(Bet bet) throws IllegalArgumentException {
 		Date dateTime = createDateFromDateString(bet.getDateTime());
 		
-        long currentTime = System.currentTimeMillis() - 3600; // Past means One hour before the current time.
+		// Past means One hour before the current time.
+        long currentTime = System.currentTimeMillis() - (3600 * 1000);
+
         if (dateTime.before(new Date(currentTime)))
         	throw new IllegalArgumentException("Current time should not in the past.");
         
@@ -43,8 +45,12 @@ public class BusinessService {
 		// An exception will be thrown if the bet type is invalid.
 		BET_TYPE betType = convertBetTypeToEnum(bet.getBetType());
 
-		BetEntity entity = new BetEntity(dateTime, betType.toString(), bet.getPropNumber(), 
-										 bet.getCustomerId(), bet.getInvestmentAmount());
+		BetEntity entity = new BetEntity();
+		entity.setDateTime(dateTime);
+		entity.setBetType(betType.toString());
+		entity.setPropNumber(bet.getPropNumber()); 
+		entity.setCustomerId(bet.getCustomerId());
+		entity.setInvestmentAmount(bet.getInvestmentAmount());
 
 		this.repository.save(entity);
 	}
@@ -62,9 +68,16 @@ public class BusinessService {
 		List<BetEntity> be = repository.findByBetType(bt.toString());
 		List<Bet> bets = new ArrayList<Bet>();
 
-		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-										 e.getBetType(), e.getPropNumber(),
-										 e.getCustomerId(), e.getInvestmentAmount())));
+		be.forEach(e -> { 
+			Bet bet = new Bet();
+			bet.setBetId(e.getBetId());
+			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
+			bet.setBetType(e.getBetType());
+			bet.setPropNumber(e.getPropNumber());
+			bet.setCustomerId(e.getCustomerId());
+			bet.setInvestmentAmount(e.getInvestmentAmount());
+			bets.add(bet);
+		});
 		
 		double total = be.stream().mapToDouble(o -> o.getInvestmentAmount()).sum();
 
@@ -82,9 +95,16 @@ public class BusinessService {
 		List<BetEntity> be = repository.findByCustomerId(customerId);
 		List<Bet> bets = new ArrayList<Bet>();
 
-		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-										 e.getBetType(), e.getPropNumber(),
-										 e.getCustomerId(), e.getInvestmentAmount())));
+		be.forEach(e -> { 
+			Bet bet = new Bet();
+			bet.setBetId(e.getBetId());
+			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
+			bet.setBetType(e.getBetType());
+			bet.setPropNumber(e.getPropNumber());
+			bet.setCustomerId(e.getCustomerId());
+			bet.setInvestmentAmount(e.getInvestmentAmount());
+			bets.add(bet);
+		});
 		double total = be.stream().mapToDouble(o -> o.getInvestmentAmount()).sum();
 
 		return new Report(bets, total);
@@ -103,9 +123,16 @@ public class BusinessService {
 		List<BetEntity> be = repository.findByBetType(bt.toString());
 		List<Bet> bets = new ArrayList<Bet>();
 
-		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-										 e.getBetType(), e.getPropNumber(),
-										 e.getCustomerId(), e.getInvestmentAmount())));
+		be.forEach(e -> { 
+			Bet bet = new Bet();
+			bet.setBetId(e.getBetId());
+			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
+			bet.setBetType(e.getBetType());
+			bet.setPropNumber(e.getPropNumber());
+			bet.setCustomerId(e.getCustomerId());
+			bet.setInvestmentAmount(e.getInvestmentAmount());
+			bets.add(bet);
+		});
 
 		return new Report(bets, bets.size());
 	}
@@ -127,9 +154,16 @@ public class BusinessService {
 		List<BetEntity> be = repository.findAllByDateTimeBetween(startDate, endDate);
 		List<Bet> bets = new ArrayList<Bet>();
 
-		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-										 e.getBetType(), e.getPropNumber(),
-										 e.getCustomerId(), e.getInvestmentAmount())));
+		be.forEach(e -> { 
+			Bet bet = new Bet();
+			bet.setBetId(e.getBetId());
+			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
+			bet.setBetType(e.getBetType());
+			bet.setPropNumber(e.getPropNumber());
+			bet.setCustomerId(e.getCustomerId());
+			bet.setInvestmentAmount(e.getInvestmentAmount());
+			bets.add(bet);
+		});
 		return new Report(bets, bets.size());
 	}
 
@@ -137,9 +171,16 @@ public class BusinessService {
 		Iterable<BetEntity> iterable = this.repository.findAll();
 		List<Bet> bets = new ArrayList<Bet>();
 
-		iterable.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-											   e.getBetType(), e.getPropNumber(),
-											   e.getCustomerId(), e.getInvestmentAmount())));
+		iterable.forEach(e -> { 
+			Bet bet = new Bet();
+			bet.setBetId(e.getBetId());
+			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
+			bet.setBetType(e.getBetType());
+			bet.setPropNumber(e.getPropNumber());
+			bet.setCustomerId(e.getCustomerId());
+			bet.setInvestmentAmount(e.getInvestmentAmount());
+			bets.add(bet);
+		});
 		
 		return bets;
 	}

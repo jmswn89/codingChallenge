@@ -99,7 +99,7 @@ public class BetControllerCreateTest extends AbstractController {
 		bet.setBetType("WIN");
 		bet.setCustomerId(1);
 		// The date time is 2 hours before current time.
-		Date dateTime = new Date(System.currentTimeMillis() - 7200);
+		Date dateTime = new Date(System.currentTimeMillis() - (7200 * 1000));
 		bet.setDateTime(DATE_FORMAT.format(dateTime));
 		bet.setInvestmentAmount(3100.0);
 		bet.setPropNumber(10);

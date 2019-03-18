@@ -27,7 +27,12 @@ public class BetRepositoryTest {
 	
 	@Test
 	public void testFindByBetType() {
-		BetEntity be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 1, 10.0);
+		BetEntity be = new BetEntity();
+		be.setDateTime(new Date(System.currentTimeMillis()));
+		be.setBetType("WIN");
+		be.setPropNumber(123);
+		be.setCustomerId(1);
+		be.setInvestmentAmount(10.0);
 		entityManager.persistAndFlush(be);
 		
 		List<BetEntity> results =  repository.findByBetType("WIN");
@@ -43,11 +48,28 @@ public class BetRepositoryTest {
 	
 	@Test
 	public void testFindByCustomerId() {
-		BetEntity be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 1, 10.0);
+		BetEntity be = new BetEntity();
+		be.setDateTime(new Date(System.currentTimeMillis()));
+		be.setBetType("WIN");
+		be.setPropNumber(123);
+		be.setCustomerId(1);
+		be.setInvestmentAmount(10.0);
 		entityManager.persistAndFlush(be);
-		be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 1, 100.0);
+
+		be = new BetEntity();
+		be.setDateTime(new Date(System.currentTimeMillis()));
+		be.setBetType("WIN");
+		be.setPropNumber(123);
+		be.setCustomerId(1);
+		be.setInvestmentAmount(100.0);
 		entityManager.persistAndFlush(be);
-		be = new BetEntity(new Date(System.currentTimeMillis()), "WIN", 123, 12, 100.0);
+		
+		be = new BetEntity();
+		be.setDateTime(new Date(System.currentTimeMillis()));
+		be.setBetType("WIN");
+		be.setPropNumber(123);
+		be.setCustomerId(12);
+		be.setInvestmentAmount(100.0);
 		entityManager.persistAndFlush(be);
 		entityManager.flush();
 		
@@ -66,16 +88,31 @@ public class BetRepositoryTest {
 	public void testFindByDateTime() {
 		Long currentTime = System.currentTimeMillis();
 		Date dCurrTime = new Date(currentTime);
-		BetEntity be1 = new BetEntity(dCurrTime, "WIN", 123, 1, 10.0);
+		BetEntity be1 = new BetEntity();
+		be1.setDateTime(dCurrTime);
+		be1.setBetType("WIN");
+		be1.setPropNumber(123);
+		be1.setCustomerId(1);
+		be1.setInvestmentAmount(10.0);	
 		entityManager.persistAndFlush(be1);
 
 		Long currentTime2 = currentTime + (1 * 600);
 		Date dCurrTime2 = new Date(currentTime2);
-		BetEntity be2 = new BetEntity(dCurrTime2, "WIN", 123, 1, 200.0);
+		BetEntity be2 = new BetEntity();
+		be2.setDateTime(dCurrTime2);
+		be2.setBetType("WIN");
+		be2.setPropNumber(123);
+		be2.setCustomerId(1);
+		be2.setInvestmentAmount(200.0);
 		entityManager.persistAndFlush(be2);
 
 		Long currentTime3 = currentTime2 + 5600 * 1000;
-		BetEntity be3 = new BetEntity(new Date(currentTime3), "WIN", 123, 1, 100.0);
+		BetEntity be3 = new BetEntity();
+		be3.setDateTime(new Date(currentTime3));
+		be3.setBetType("WIN");
+		be3.setPropNumber(123);
+		be3.setCustomerId(1);
+		be3.setInvestmentAmount(10.0);
 		entityManager.persistAndFlush(be3);
 		
 		Long oneHourFromCurrentTime = currentTime + (1 * 3600 * 1000);
