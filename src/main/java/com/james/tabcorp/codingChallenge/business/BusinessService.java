@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.james.tabcorp.codingChallenge.model.entity.BetEntity;
 import com.james.tabcorp.codingChallenge.model.repository.BetRepository;
 import com.james.tabcorp.codingChallenge.ui.Bet;
+import com.james.tabcorp.codingChallenge.ui.Report;
 
 @Service
 public class BusinessService {
@@ -53,15 +54,21 @@ public class BusinessService {
 	 * 
 	 * @param betType	A specified bet type.
 	 * 
-	 * @return Sum of investment per bet type.
+	 * @return {@link Report} of specified bet type.
 	 */
-	public double totalInvestmentPerBetType(String betType) {
+	public Report totalInvestmentPerBetType(String betType) {
 		BET_TYPE bt = convertBetTypeToEnum(betType);
 		
 		List<BetEntity> be = repository.findByBetType(bt.toString());
+		List<Bet> bets = new ArrayList<Bet>();
+
+		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+										 e.getBetType(), e.getPropNumber(),
+										 e.getCustomerId(), e.getInvestmentAmount())));
+		
 		double total = be.stream().mapToDouble(o -> o.getInvestmentAmount()).sum();
 
-		return total;
+		return new Report(bets, total);
 	}
 
 	/**
@@ -69,13 +76,18 @@ public class BusinessService {
 	 * 
 	 * @param customerId	A specified customer ID.
 	 * 
-	 * @return Sum of investment per customer Id.
+	 * @return {@link Report} of sum of investment per customer Id.
 	 */
-	public double totalInvestmentPerCustomerId(int customerId) {
+	public Report totalInvestmentPerCustomerId(int customerId) {
 		List<BetEntity> be = repository.findByCustomerId(customerId);
+		List<Bet> bets = new ArrayList<Bet>();
+
+		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+										 e.getBetType(), e.getPropNumber(),
+										 e.getCustomerId(), e.getInvestmentAmount())));
 		double total = be.stream().mapToDouble(o -> o.getInvestmentAmount()).sum();
 
-		return total;
+		return new Report(bets, total);
 	}
 
 	/**
@@ -83,24 +95,54 @@ public class BusinessService {
 	 * 
 	 * @param betType	A specified bet type.
 	 *
-	 * @return Total bet sold per bet type.
+	 * @return {@link Report} of total bet sold per bet type.
 	 */
-	public int totalBetSoldPerBetType(String betType) {
+	public Report totalBetSoldPerBetType(String betType) {
 		BET_TYPE bt = convertBetTypeToEnum(betType);
-		return repository.findByBetType(bt.toString()).size();
+		
+		List<BetEntity> be = repository.findByBetType(bt.toString());
+		List<Bet> bets = new ArrayList<Bet>();
+
+		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+										 e.getBetType(), e.getPropNumber(),
+										 e.getCustomerId(), e.getInvestmentAmount())));
+
+		return new Report(bets, bets.size());
 	}
 
 	/**
 	 * Return total bet sold per hour since the specified date.
 	 * 
 	 * @param date	A specified start date.
-	 * @return total bet sold per hour.
+	 * 
+	 * @return {@link Report} of total bet sold per hour.
 	 */
-	public int totalBetSoldPerHour(String date) {
+	public Report totalBetSoldPerHour(String date) {
 		Date startDate = createDateFromDateString(date);
 		Date endDate =  new Date(startDate.getTime() + 3600);
 		
-		return repository.findAllByDateTimeBetween(startDate, endDate).size();
+		List<BetEntity> be = repository.findAllByDateTimeBetween(startDate, endDate);
+		List<Bet> bets = new ArrayList<Bet>();
+
+		be.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+										 e.getBetType(), e.getPropNumber(),
+										 e.getCustomerId(), e.getInvestmentAmount())));
+		return new Report(bets, bets.size());
+	}
+
+	public List<Bet> findAllBets() {
+		Iterable<BetEntity> iterable = this.repository.findAll();
+		List<Bet> bets = new ArrayList<Bet>();
+
+		iterable.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
+											   e.getBetType(), e.getPropNumber(),
+											   e.getCustomerId(), e.getInvestmentAmount())));
+		
+		return bets;
+	}
+
+	public void cleanDatabase() {
+		this.repository.deleteAll();
 	}
 
 	/**
@@ -123,32 +165,17 @@ public class BusinessService {
 	}
 
 	private Date createDateFromDateString(String dateString){
-        Date date = null;
-        if (null != dateString) {
-            try {
-                date = DATE_FORMAT.parse(dateString);
-            }catch(ParseException pe){
-                date = new Date();
-            }
-        } else {
-            date = new Date();
-        }
-
-        return date;
-    }
-
-	public List<Bet> findAllBets() {
-		Iterable<BetEntity> iterable = this.repository.findAll();
-		List<Bet> bets = new ArrayList<Bet>();
-
-		iterable.forEach(e -> bets.add(new Bet(e.getBetId(), DATE_FORMAT.format(e.getDateTime()), 
-											   e.getBetType(), e.getPropNumber(),
-											   e.getCustomerId(), e.getInvestmentAmount())));
-		
-		return bets;
-	}
-
-	public void cleanDatabase() {
-		this.repository.deleteAll();
+	    Date date = null;
+	    if (null != dateString) {
+	        try {
+	            date = DATE_FORMAT.parse(dateString);
+	        }catch(ParseException pe){
+	            date = new Date();
+	        }
+	    } else {
+	        date = new Date();
+	    }
+	
+	    return date;
 	}
 }

@@ -1,6 +1,7 @@
 package com.james.tabcorp.codingChallenge.ui;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -126,6 +128,76 @@ public class BetControllerGetTest extends AbstractController {
 		for (int i = 0; i < results.length; i++) {
 			isEqual(results, i);
 		}
+	}
+	
+	@Test
+	public void testTotalInvestmentPerBetType() throws Exception {
+		// Make sure we have all data have been populated.
+		String uri = "/report/totalInvestmentPerBetType/WIN";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+		String content = mvcResult.getResponse().getContentAsString();
+		Report result = super.mapFromJson(content, Report.class);
+		List<Bet> bets = result.getBets();
+		assertEquals(bets.size(), 3);
+		assertTrue(result.getTotalInvestment() == 600.0);
+		assertEquals(result.getTotalBets(), -1);
+	}
+
+	@Test
+	public void testTotalInvestmentPerCustomerId() throws Exception {
+		// Make sure we have all data have been populated.
+		String uri = "/report/totalInvestmentPerCustomerId/2";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+		String content = mvcResult.getResponse().getContentAsString();
+		Report result = super.mapFromJson(content, Report.class);
+		List<Bet> bets = result.getBets();
+		assertEquals(bets.size(), 2);
+		assertTrue(result.getTotalInvestment() == 600.0);
+		assertEquals(result.getTotalBets(), -1);
+	}
+	
+	@Test
+	public void testTotalBetSoldPerBetType() throws Exception {
+		// Make sure we have all data have been populated.
+		String uri = "/report/totalBetSoldPerBetType/DOUBLE";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+		String content = mvcResult.getResponse().getContentAsString();
+		Report result = super.mapFromJson(content, Report.class);
+		List<Bet> bets = result.getBets();
+		assertEquals(bets.size(), 1);
+		assertTrue(result.getTotalInvestment() == -1);
+		assertEquals(result.getTotalBets(), 1);
+	}
+
+	
+	@Test
+	public void testTotalBetSoldPerHour() throws Exception {
+		// Make sure we have all data have been populated.
+		Date currTime = new Date(System.currentTimeMillis() - 1800);
+		String uri = "/report/totalBetSoldPerHour/" + DATE_FORMAT.format(currTime);
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn();
+
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
+		String content = mvcResult.getResponse().getContentAsString();
+		Report result = super.mapFromJson(content, Report.class);
+		List<Bet> bets = result.getBets();
+		assertEquals(bets.size(), 4);
+		assertTrue(result.getTotalInvestment() == -1);
+		assertEquals(result.getTotalBets(), 4);
 	}
 	
 	private void isEqual(Bet[] results, int index) {

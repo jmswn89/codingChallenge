@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,6 +53,62 @@ public class BetController {
         return bets;
     }
 	
+	@RequestMapping(value = "/report/totalInvestmentPerBetType/{betType}", method = RequestMethod.GET)
+    public Report getTotalInvestmentPerBetType(@PathVariable String betType) {
+		Report report = new Report();
+        try {
+        	report = this.businessService.totalInvestmentPerBetType(betType);
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+        return report;
+	}
+	
+	@RequestMapping(value = "/report/totalInvestmentPerCustomerId/{customerId}", method = RequestMethod.GET)
+    public Report getTotalInvestmentPerCustomerId(@PathVariable int customerId) {
+		Report report = new Report();
+        try {
+        	report = this.businessService.totalInvestmentPerCustomerId(customerId);
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+        return report;
+	}
+
+	@RequestMapping(value = "/report/totalBetSoldPerBetType/{betType}", method = RequestMethod.GET)
+    public Report getTotalBetSoldPerBetType(@PathVariable String betType) {
+		Report report = new Report();
+        try {
+        	report = this.businessService.totalBetSoldPerBetType(betType);
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+        return report;
+	}
+
+	@RequestMapping(value = "/report/totalBetSoldPerHour/{dateTime}", method = RequestMethod.GET)
+    public Report getTotalBetSoldPerHour(@PathVariable String dateTime) {
+		Report report = new Report();
+        try {
+        	report = this.businessService.totalBetSoldPerHour(dateTime);
+        }
+        catch (Exception ex) 
+        {
+        	errorMessage = ex.getMessage();
+        	throw ex;
+        }
+        return report;
+	}
+
 	@RequestMapping(value = "/cleanDatabase", method = RequestMethod.DELETE)
     public void cleanDatabase() {
         try {
