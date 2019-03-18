@@ -111,16 +111,19 @@ public class BusinessService {
 	}
 
 	/**
-	 * Return total bet sold per hour since the specified date.
-	 * 
-	 * @param date	A specified start date.
+	 * Return total bet sold per hour.
 	 * 
 	 * @return {@link Report} of total bet sold per hour.
 	 */
-	public Report totalBetSoldPerHour(String date) {
-		Date startDate = createDateFromDateString(date);
-		Date endDate =  new Date(startDate.getTime() + 3600);
-		
+	public Report totalBetSoldPerHour() {
+//		Date startDate = createDateFromDateString(date);
+//		Date endDate =  new Date(startDate.getTime() + 3600);
+		long currentTime = System.currentTimeMillis();
+		Date endDate = new Date(currentTime);
+		// Start date is an hour ago from the current time.
+		long oneHourFromCurrent = currentTime - (3600 * 1000);
+		Date startDate = new Date(oneHourFromCurrent);
+
 		List<BetEntity> be = repository.findAllByDateTimeBetween(startDate, endDate);
 		List<Bet> bets = new ArrayList<Bet>();
 

@@ -95,11 +95,11 @@ public class BetController {
         return report;
 	}
 
-	@RequestMapping(value = "/report/totalBetSoldPerHour/{dateTime}", method = RequestMethod.GET)
-    public Report getTotalBetSoldPerHour(@PathVariable String dateTime) {
+	@RequestMapping(value = "/report/totalBetSoldPerHour", method = RequestMethod.GET)
+    public Report getTotalBetSoldPerHour() {
 		Report report = new Report();
         try {
-        	report = this.businessService.totalBetSoldPerHour(dateTime);
+        	report = this.businessService.totalBetSoldPerHour();
         }
         catch (Exception ex) 
         {

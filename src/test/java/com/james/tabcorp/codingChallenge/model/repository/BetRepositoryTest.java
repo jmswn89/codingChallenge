@@ -74,11 +74,11 @@ public class BetRepositoryTest {
 		BetEntity be2 = new BetEntity(dCurrTime2, "WIN", 123, 1, 200.0);
 		entityManager.persistAndFlush(be2);
 
-		Long currentTime3 = currentTime2 + 5600;
+		Long currentTime3 = currentTime2 + 5600 * 1000;
 		BetEntity be3 = new BetEntity(new Date(currentTime3), "WIN", 123, 1, 100.0);
 		entityManager.persistAndFlush(be3);
 		
-		Long oneHourFromCurrentTime = currentTime + (1 * 3600);
+		Long oneHourFromCurrentTime = currentTime + (1 * 3600 * 1000);
 		List<BetEntity> results =  repository.findAllByDateTimeBetween(dCurrTime, new Date(oneHourFromCurrentTime));
 		assertEquals(results.size(), 2);
 		assertTrue(results.get(0).getDateTime().equals(dCurrTime));

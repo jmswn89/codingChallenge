@@ -11,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -39,12 +38,11 @@ public class BetControllerGetTest extends AbstractController {
 
 	private void populateData() throws Exception {
 		String uri = "/bet";
-		int recNumber = 1;
 		// First bet.
 		Bet bet = new Bet();
 		bet.setBetType("WIN");
 		bet.setCustomerId(1);
-		Date dateTime = new Date(System.currentTimeMillis() + (recNumber++ * 60));
+		Date dateTime = new Date(System.currentTimeMillis());
 		bet.setDateTime(DATE_FORMAT.format(dateTime));
 		bet.setInvestmentAmount(100.0);
 		bet.setPropNumber(10);
@@ -62,7 +60,7 @@ public class BetControllerGetTest extends AbstractController {
 		bet = new Bet();
 		bet.setBetType("WIN");
 		bet.setCustomerId(1);
-		dateTime = new Date(System.currentTimeMillis() + (recNumber++ * 600));
+		dateTime = new Date(System.currentTimeMillis());
 		bet.setDateTime(DATE_FORMAT.format(dateTime));
 		bet.setInvestmentAmount(200.0);
 		bet.setPropNumber(11);
@@ -80,7 +78,7 @@ public class BetControllerGetTest extends AbstractController {
 		bet = new Bet();
 		bet.setBetType("WIN");
 		bet.setCustomerId(2);
-		dateTime = new Date(System.currentTimeMillis() + (recNumber++ * 600));
+		dateTime = new Date(System.currentTimeMillis());
 		bet.setDateTime(DATE_FORMAT.format(dateTime));
 		bet.setInvestmentAmount(300.0);
 		bet.setPropNumber(12);
@@ -98,7 +96,7 @@ public class BetControllerGetTest extends AbstractController {
 		bet = new Bet();
 		bet.setBetType("DOUBLE");
 		bet.setCustomerId(2);
-		dateTime = new Date(System.currentTimeMillis()  + (recNumber++ * 600));
+		dateTime = new Date(System.currentTimeMillis());
 		bet.setDateTime(DATE_FORMAT.format(dateTime));
 		bet.setInvestmentAmount(300.0);
 		bet.setPropNumber(12);
@@ -185,8 +183,7 @@ public class BetControllerGetTest extends AbstractController {
 	@Test
 	public void testTotalBetSoldPerHour() throws Exception {
 		// Make sure we have all data have been populated.
-		Date currTime = new Date(System.currentTimeMillis() - 1800);
-		String uri = "/report/totalBetSoldPerHour/" + DATE_FORMAT.format(currTime);
+		String uri = "/report/totalBetSoldPerHour/";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
 				.andReturn();
 
