@@ -4,6 +4,17 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+/**
+ * This class represents a generated report and the REST client will use it. 
+ * It holds a list of {@link Bet}, total investment and total bets. The list of bets is a list of bets found. 
+ * Total investments is a total of investments for a list of bets found. Total bets is a total of bets found 
+ * for a list of bets found. If the generated report produces a total of investment, then the total investment 
+ * value is not -1 and total bets is -1. On the other hand, if the generated report has a total bets, 
+ * then the total bets value is not -1 and the total investment is -1.
+ * 
+ * @author James Jayaputera
+ *
+ */
 public class Report {
 	@Id
 	private Long betId;

@@ -17,16 +17,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.james.tabcorp.codingChallenge.business.BusinessService;
 
+/**
+ * This class contains all endpoints which will be called by REST client.
+ * 
+ * @author James Jayaputera
+ *
+ */
 @RestController
 public class BetController {
 	private BusinessService businessService;
 	private String errorMessage = "";
 
+	/**
+	 * Constructor
+	 * 
+	 * @param businessService A {@link BusinessService}.
+	 */
 	@Autowired
 	public BetController(BusinessService businessService) {
 		this.businessService = businessService;
 	}
 
+	/**
+	 * An endpoint to create a bet.
+	 * 
+	 * @param bet	An instance of {@link Bet}.
+	 */
 	@RequestMapping(value = "/bet", method = RequestMethod.POST)
     public void createBet(@RequestBody Bet bet) {
         try {
@@ -39,6 +55,11 @@ public class BetController {
         }
     }
 	
+	/**
+	 * An endpoint to retrieve all bets available in database.
+	 * 
+	 * @return a list of {@link Bet}.
+	 */
 	@RequestMapping(value = "/bets", method = RequestMethod.GET)
     public List<Bet> getAllBets() {
 		List<Bet> bets = new ArrayList<Bet>();
@@ -53,6 +74,13 @@ public class BetController {
         return bets;
     }
 	
+	/**
+	 * An endpoint to generate a report which contains a list of bets and its total investment based on a specified bet type.
+	 * 
+	 * @param betType A bet type (WIN / PLACE / TRIFECTA / DOUBLE / QUADDIE).
+	 * 
+	 * @return {@link Report} instance.
+	 */
 	@RequestMapping(value = "/report/totalInvestmentPerBetType/{betType}", method = RequestMethod.GET)
     public Report getTotalInvestmentPerBetType(@PathVariable String betType) {
 		Report report = new Report();
@@ -67,6 +95,13 @@ public class BetController {
         return report;
 	}
 	
+	/**
+	 * An endpoint to generate a report which contains a list of bets and its total investment based on a customer ID.
+	 * 
+	 * @param customerId A customer ID.
+	 * 
+	 * @return {@link Report}.
+	 */
 	@RequestMapping(value = "/report/totalInvestmentPerCustomerId/{customerId}", method = RequestMethod.GET)
     public Report getTotalInvestmentPerCustomerId(@PathVariable int customerId) {
 		Report report = new Report();
@@ -81,6 +116,13 @@ public class BetController {
         return report;
 	}
 
+	/**
+	 * An endpoint to generate a report which contains a list of bets and total bets sold based on a specified bet type.
+	 * 
+	 * @param betType A bet type (WIN / PLACE / TRIFECTA / DOUBLE / QUADDIE)
+	 * 
+	 * @return {@link Report}.
+	 */
 	@RequestMapping(value = "/report/totalBetSoldPerBetType/{betType}", method = RequestMethod.GET)
     public Report getTotalBetSoldPerBetType(@PathVariable String betType) {
 		Report report = new Report();
@@ -95,6 +137,11 @@ public class BetController {
         return report;
 	}
 
+	/**
+	 * An endpoint to generate a list of bets and the total bets since one hour from the current time.
+	 * 
+	 * @return {@link Report}.
+	 */
 	@RequestMapping(value = "/report/totalBetSoldPerHour", method = RequestMethod.GET)
     public Report getTotalBetSoldPerHour() {
 		Report report = new Report();
@@ -109,6 +156,10 @@ public class BetController {
         return report;
 	}
 
+	/**
+	 * To remove all database records.
+	 * 
+	 */
 	@RequestMapping(value = "/cleanDatabase", method = RequestMethod.DELETE)
     public void cleanDatabase() {
         try {
@@ -123,7 +174,6 @@ public class BetController {
 	
 	@ExceptionHandler({IllegalArgumentException.class})
 	void handleBadRequests(HttpServletResponse response) throws IOException {
-		System.out.println("hello world");
 	    response.sendError(HttpStatus.BAD_REQUEST.value(), errorMessage);
 	}
 	
