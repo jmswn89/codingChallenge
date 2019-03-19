@@ -70,7 +70,6 @@ public class BusinessService {
 
 		be.forEach(e -> { 
 			Bet bet = new Bet();
-			bet.setBetId(e.getBetId());
 			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
 			bet.setBetType(e.getBetType());
 			bet.setPropNumber(e.getPropNumber());
@@ -97,7 +96,6 @@ public class BusinessService {
 
 		be.forEach(e -> { 
 			Bet bet = new Bet();
-			bet.setBetId(e.getBetId());
 			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
 			bet.setBetType(e.getBetType());
 			bet.setPropNumber(e.getPropNumber());
@@ -125,7 +123,6 @@ public class BusinessService {
 
 		be.forEach(e -> { 
 			Bet bet = new Bet();
-			bet.setBetId(e.getBetId());
 			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
 			bet.setBetType(e.getBetType());
 			bet.setPropNumber(e.getPropNumber());
@@ -143,8 +140,6 @@ public class BusinessService {
 	 * @return {@link Report} of total bet sold per hour.
 	 */
 	public Report totalBetSoldPerHour() {
-//		Date startDate = createDateFromDateString(date);
-//		Date endDate =  new Date(startDate.getTime() + 3600);
 		long currentTime = System.currentTimeMillis();
 		Date endDate = new Date(currentTime);
 		// Start date is an hour ago from the current time.
@@ -156,7 +151,6 @@ public class BusinessService {
 
 		be.forEach(e -> { 
 			Bet bet = new Bet();
-			bet.setBetId(e.getBetId());
 			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
 			bet.setBetType(e.getBetType());
 			bet.setPropNumber(e.getPropNumber());
@@ -173,7 +167,6 @@ public class BusinessService {
 
 		iterable.forEach(e -> { 
 			Bet bet = new Bet();
-			bet.setBetId(e.getBetId());
 			bet.setDateTime(DATE_FORMAT.format(e.getDateTime()));
 			bet.setBetType(e.getBetType());
 			bet.setPropNumber(e.getPropNumber());
