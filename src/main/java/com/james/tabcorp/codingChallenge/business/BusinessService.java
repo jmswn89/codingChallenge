@@ -14,6 +14,13 @@ import com.james.tabcorp.codingChallenge.model.repository.BetRepository;
 import com.james.tabcorp.codingChallenge.ui.Bet;
 import com.james.tabcorp.codingChallenge.ui.Report;
 
+/**
+ * This class contains the business logic for the whole application.
+ * It defines all endpoint, specified in controller, implementations.
+ * 
+ * @author James Jayaputera
+ *
+ */
 @Service
 public class BusinessService {
 

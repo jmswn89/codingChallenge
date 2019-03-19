@@ -11,6 +11,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * The class maps between the JAVA and JPA object.
+ * 
+ * @author James Jayaputera
+ *
+ */
 @Entity
 @Table(name="bet")
 public class BetEntity {

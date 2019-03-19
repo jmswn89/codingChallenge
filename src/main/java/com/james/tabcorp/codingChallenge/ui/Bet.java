@@ -4,6 +4,12 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * An class represents Bet object.
+ * 
+ * @author James Jayaputera
+ *
+ */
 public class Bet {
 
 	@NotNull
